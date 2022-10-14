@@ -12,16 +12,16 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt-get install -y zip zipalign bc build-essential zip gcc clang libc6 curl libstdc++6 git wget libssl-dev cpio
-          BOARD=raphael
+          BOARD=alioth
           echo "BOARD=$BOARD" >> $GITHUB_ENV
           curl -sL https://git.io/file-transfer | bash -s beta
       - name: 拉取源代码和工具链
         run: |
-          git clone https://oauth2:${{ secrets.TOKEN }}@github.com/zclkkk/kernel_xiaomi_sm8150.git msm-4.14 --depth=1 -b main
-          VERSION="$(cat msm-4.14/arch/arm64/configs/${BOARD}_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
+          git clone https://oauth2:${{ secrets.TOKEN }}@github.com/Project-Mika/android_kernel_xiaomi_sm8250 msm-4.19 --depth=1 -b arrow-13.0
+          VERSION="$(cat msm-4.19/arch/arm64/configs/${BOARD}_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
-          mv linux-x86/clang-r450784e clang && rm -rf linux-x86
+          mv linux-x86/clang-r450784d clang && rm -rf linux-x86
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
@@ -44,7 +44,7 @@ jobs:
                                   CLANG_TRIPLE=aarch64-linux-gnu- \
                                   CROSS_COMPILE=aarch64-linux-gnu- \
                                   CROSS_COMPILE_ARM32=arm-linux-gnueabi- "
-          cd msm-4.14
+          cd msm-4.19
           make ${args} ${BOARD}_defconfig
           make -j64 ${args}
         env:
