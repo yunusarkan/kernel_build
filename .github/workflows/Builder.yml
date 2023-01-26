@@ -19,7 +19,7 @@ jobs:
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1
-          git clone --depth=1 https://github.com/SakuraNotStupid/AnyKernel3 -b main
+          git clone https://github.com/SakuraNotStupid/AnyKernel3
       - name: Compiling Kernel
         run: |
           CLANG=~/clang/bin
