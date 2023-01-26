@@ -15,7 +15,7 @@ jobs:
           curl -sL https://git.io/file-transfer | bash -s beta
       - name: Cloning Source Code and Toolchain
         run: |
-          git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU
+          git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU --recurse-submodules
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1
