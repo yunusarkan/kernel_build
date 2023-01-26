@@ -1,67 +1,48 @@
-name: 构建Mika内核
+name: Build KernelSU For MI8SE(sirius)
 
 on:
   watch:
     types: [started]
 
 jobs:
-  MikaKernel:
+  KSUForSirius:
     runs-on: ubuntu-latest
     steps:
-      - name: 环境准备
+      - name: Preparing the path
         run: |
           sudo apt update -y
           sudo apt-get install -y zip zipalign bc build-essential zip gcc clang libc6 curl libstdc++6 git wget libssl-dev cpio
           BOARD=alioth
           echo "BOARD=$BOARD" >> $GITHUB_ENV
           curl -sL https://git.io/file-transfer | bash -s beta
-      - name: 拉取源代码和工具链
+      - name: Cloning Source Code and Toolchain
         run: |
-          git clone https://oauth2:${{ secrets.TOKEN }}@github.com/Project-Mika/android_kernel_xiaomi_sm8250 msm-4.19 --depth=1 -b arrow-13.0
-          VERSION="$(cat msm-4.19/arch/arm64/configs/${BOARD}_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
-          mv linux-x86/clang-r450784d clang && rm -rf linux-x86
-          git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
-      - name: 构建内核
+          git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU
+          git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 clang
+          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1
+          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1
+          git clone --depth=1 https://github.com/SakuraNotStupid/AnyKernel3 -b main
+      - name: Compiling Kernel
         run: |
-          export KBUILD_BUILD_USER="zclkkk"
-          export KBUILD_BUILD_HOST="Server"
-          export PATH=/home/runner/work/kernel_build/kernel_build/clang/bin:${PATH}
-          args="                  ARCH=arm64 \
-                                  O=../out \
-                                  CC=clang \
-                                  AR=llvm-ar \
-                                  NM=llvm-nm \
-                                  OBJCOPY=llvm-objcopy \
-                                  OBJDUMP=llvm-objdump \
-                                  STRIP=llvm-strip \
-                                  LD=ld.lld \
-                                  HOSTCC=clang \
-                                  HOSTLD=ld.lld \
-                                  HOSTAR=llvm-ar \
-                                  HOSTCXX=clang++ \
-                                  CLANG_TRIPLE=aarch64-linux-gnu- \
-                                  CROSS_COMPILE=aarch64-linux-gnu- \
-                                  CROSS_COMPILE_ARM32=arm-linux-gnueabi- "
-          cd msm-4.19
-          make ${args} ${BOARD}_defconfig
+          CLANG=~/clang/bin
+          GCC32=~/arm-linux-androideabi-4.9/bin
+          GCC64=~/aarch64-linux-android-4.9/bin
+          PATH=$CLANG:$GCC64:$GCC32:$PATH
+          args="-j$(nproc --all) \
+          O=out \
+          ARCH=arm64 \
+          CLANG_TRIPLE=aarch64-linux-gnu- \
+          CROSS_COMPILE=$GCC64/aarch64-linux-android- \
+          CC=$CLANG/clang \
+          CROSS_COMPILE_ARM32=$GCC32/arm-linux-androideabi- "
+          cd android_kernel_xiaomi_sdm710
+          make ${args} sirius_defconfig
           make -j64 ${args}
-        env:
-           BOARD: ${{ env.BOARD }}
       - name: 打包内核
         run: |
-          cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
-          cp out/arch/arm64/boot/dtbo.img AnyKernel3/
+          cp out/arch/arm64/boot/Image.gz AnyKernel3/
           cd AnyKernel3
-          7z a -mx9 ${VERSION}.zip *
-          zipalign -v 4 ${VERSION}.zip ../${VERSION}_${BOARD}.zip
-        env:
-           BOARD: ${{ env.BOARD }}
-           VERSION: ${{ env.VERSION }}
+          7z a -mx9 ../${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip *
       - name: 上传内核
         run: |
-          ./transfer trs ${VERSION}_${BOARD}.zip
-        env:
-           BOARD: ${{ env.BOARD }}
-           VERSION: ${{ env.VERSION }}
+          ./transfer trs ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip
