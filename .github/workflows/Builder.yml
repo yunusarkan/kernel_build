@@ -8,13 +8,13 @@ jobs:
   KSUForSirius:
     runs-on: ubuntu-latest
     steps:
-      - name: Preparing the path
+      - name: Installing Dependencies
         run: |
           sudo apt update -y
           sudo apt-get install -y zip flex bison libncurses-dev gawk  libiberty-dev autoconf kmod bc build-essential gcc libc6 curl libstdc++6 git wget libssl-dev cpio p7zip-full
           sudo apt clean
           curl -sL https://git.io/file-transfer | bash -s beta
-      - name: Cloning Source Code and Toolchain
+      - name: Cloning Sources and Toolchain
         run: |
           git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU --recurse-submodules
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
@@ -34,19 +34,21 @@ jobs:
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
           export  CC=clang
           output_dir=out
-          cd -v android_kernel_xiaomi_sdm710
+          pushd android_kernel_xiaomi_sdm710
           make O="$output_dir" \
                       sdm670-perf_defconfig \
                       xiaomi/sdm710-common.config \
                       xiaomi/sirius.config
           make -j $(nproc) \
                        O="$output_dir"
-      - name: 打包内核
+          popd
+      - name: Packaging the Kernel
         run: |
           cp -v android_kernel_xiaomi_sdm710/out/arch/arm64/boot/Image.gz-dtb \
                      AnyKernel3/
-          cd -v AnyKernel3
+          pushd AnyKernel3
           7z a -mx9 ../{{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip *
-      - name: 上传内核
+          popd
+      - name: Uploading Kernel Package
         run: |
           ./transfer trs ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip
