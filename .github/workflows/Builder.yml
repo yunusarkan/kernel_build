@@ -11,14 +11,15 @@ jobs:
       - name: Preparing the path
         run: |
           sudo apt update -y
-          sudo apt-get install -y zip zipalign bc build-essential zip gcc clang libc6 curl libstdc++6 git wget libssl-dev cpio
+          sudo apt-get install -y zip flex bison libncurses-dev gawk  libiberty-dev autoconf kmod bc build-essential gcc libc6 curl libstdc++6 git wget libssl-dev cpio p7zip-full
+          sudo apt clean
           curl -sL https://git.io/file-transfer | bash -s beta
       - name: Cloning Source Code and Toolchain
         run: |
           git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU --recurse-submodules
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
-          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 ~/aarch64-linux-android-4.9
-          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 ~/arm-linux-androideabi-4.9
+          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/aarch64-linux-android-4.9
+          git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/arm-linux-androideabi-4.9
           git clone https://github.com/SakuraNotStupid/AnyKernel3
       - name: Compiling Kernel
         run: |
@@ -26,21 +27,26 @@ jobs:
           GCC32=~/arm-linux-androideabi-4.9/bin
           GCC64=~/aarch64-linux-android-4.9/bin
           PATH=$CLANG:$GCC64:$GCC32:$PATH
-          args="-j$(nproc --all) \
-          O=out \
-          ARCH=arm64 \
-          CLANG_TRIPLE=aarch64-linux-gnu- \
-          CROSS_COMPILE=$GCC64/aarch64-linux-android- \
-          CC=$CLANG/clang \
-          CROSS_COMPILE_ARM32=$GCC32/arm-linux-androideabi- "
-          cd android_kernel_xiaomi_sdm710
-          make ${args} sirius_defconfig
-          make -j64 ${args}
+          export PATH
+          export ARCH=arm64 
+          export CLANG_TRIPLE=aarch64-linux-gnu-
+          export CROSS_COMPILE=aarch64-linux-android-
+          export CROSS_COMPILE_ARM32=arm-linux-androideabi-
+          export  CC=clang
+          output_dir=out
+          cd -v android_kernel_xiaomi_sdm710
+          make O="$output_dir" \
+                      sdm670-perf_defconfig \
+                      xiaomi/sdm710-common.config \
+                      xiaomi/sirius.config
+          make -j $(nproc) \
+                       O="$output_dir"
       - name: 打包内核
         run: |
-          cp out/arch/arm64/boot/Image.gz AnyKernel3/
-          cd AnyKernel3
-          7z a -mx9 ../${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip *
+          cp -v android_kernel_xiaomi_sdm710/out/arch/arm64/boot/Image.gz-dtb \
+                     AnyKernel3/
+          cd -v AnyKernel3
+          7z a -mx9 ../{{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip *
       - name: 上传内核
         run: |
           ./transfer trs ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip
