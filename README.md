@@ -1,7 +1,7 @@
 # KernelSU For Sirius
-### CI Build KernelSU for sirius
-### !!! Only For LineageOS 20(Official) !!!  
-### !!! 仅允许 LineageOS 20(Official) 刷入使用 !!! 
+**CI Build KernelSU for sirius**  
+**!!! Only For LineageOS 20(Official) !!!**  
+**!!! 仅允许 LineageOS 20(Official) 刷入使用**
 ## How to Use
 ### 中文
 1. 将本仓库复制(Fork)到你的Github中  
@@ -31,7 +31,6 @@
 2. Click **Actions-General**
 3. Go to **Workflow permissions**
 4. Click **Read and write permissions** and **Save**
- 
 ## Credit
 This project based on [KernelSU](https://github.com/tiann/KernelSU)  
 [Ookiineko](https://github.com/Ookiineko/) helps to ported to Linux 4.9.y
