@@ -1,7 +1,7 @@
 # KernelSU For Sirius
 **CI Build KernelSU for sirius**  
 **!!! Only For LineageOS 20(Official) !!!**  
-**!!! 仅允许 LineageOS 20(Official) 刷入使用**
+**!!! 仅允许 LineageOS 20(Official) 刷入使用!!!**
 ## How to Use
 ### 中文
 1. 将本仓库复制(Fork)到你的Github中  
