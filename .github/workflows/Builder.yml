@@ -12,7 +12,6 @@ jobs:
           sudo apt update -y
           sudo apt-get install -y zip flex bison libncurses-dev gawk  libiberty-dev autoconf kmod bc build-essential gcc libc6 curl libstdc++6 git wget libssl-dev cpio p7zip-full
           sudo apt clean
-          curl -sL https://git.io/file-transfer | bash -s beta
       - name: Cloning Sources and Toolchain
         run: |
           git clone https://github.com/SakuraNotStupid/android_kernel_xiaomi_sdm710 --depth=1 -b lineage-20_KSU --recurse-submodules
@@ -41,6 +40,14 @@ jobs:
                        O="$output_dir" \
                        CC=clang
           popd
+      - name: Creating Config Info
+        run: |
+          echo "Device: MI 8 SE
+          Code: Sirius/Xmsirius
+          Build Code: ${{ github.run_number }}
+          Only For LineageOS 20(Official)
+          KernelSU For MI8SE" >> INFO.txt
+          
       - name: Packaging the Kernel
         run: |
           cp -v android_kernel_xiaomi_sdm710/out/arch/arm64/boot/Image.gz \
@@ -48,6 +55,11 @@ jobs:
           pushd AnyKernel3
           7z a -mx9 ../${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip *
           popd
-      - name: Uploading Kernel Package
-        run: |
-          ./transfer trs ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip
+      - name: Uploading Kernel Package to GH-Release
+        uses: ncipollo/release-action@v1.8.6
+        with:
+          artifacts: ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20.zip
+          name: " ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20"
+          tag: " ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20"
+          bodyFile: "INFO.txt"
+          token: ${{ secrets.GITHUB_TOKEN }}
