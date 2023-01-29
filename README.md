@@ -1,7 +1,7 @@
 # KernelSU For Sirius
 **CI Build KernelSU for sirius**  
-**!!! Only For LineageOS 20(Official) !!!**  
-**!!! 仅允许 LineageOS 20(Official) 刷入使用!!!**
+**!! Android 13 based on LineageOS source code(eg. Crdroid) can be used !!**  
+**!! 基于 LineageOS 的 Android13 类原生(例如.Crdroid)理论通用 !!**  
 ## How to Use
 ### 中文
 1. 将本仓库复制(Fork)到你的Github中  
