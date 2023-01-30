@@ -15,6 +15,6 @@
 2. 点击 **Actions-General**
 3. 找到 **Workflow permissions**
 4. 点击 **Read and write permissions** 并点击 **Save**
-.## Credit
+## Credit
 本项目基于 [KernelSU](https://github.com/tiann/KernelSU)  
 感谢 [Ookiineko](https://github.com/Ookiineko/) 帮助移植至 Linux 4.9.y
