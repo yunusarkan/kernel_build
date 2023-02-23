@@ -61,13 +61,13 @@ jobs:
           cp -v android_kernel_xiaomi_sdm710/out/arch/arm64/boot/Image.gz \
                      AnyKernel3/
           pushd AnyKernel3
-          7z a -mx9 ../MI8SE-KernelSU_LineageOS20.zip *
+          7z a -mx9 ../MI8SE_KernelSU.zip *
           popd
       - name: Uploading Kernel Package to GH-Release
         uses: ncipollo/release-action@v1.8.6
         with:
-          artifacts: MI8SE-KernelSU_LineageOS20.zip
-          name: " MI8SE-KernelSU_LineageOS20"
-          tag: " ${{ github.run_number }}_MI8SE-KernelSU_LineageOS20"
+          artifacts: MI8SE_KernelSU.zip
+          name: "MI8SE_KernelSU"
+          tag: " ${{ github.run_number }}_MI8SE_KernelSU"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
