@@ -53,7 +53,7 @@ jobs:
           echo "Device: MI 8 SE
           Code: Sirius/Xmsirius
           Build Code: ${{ github.run_number }}
-          Only For LineageOS 20(Official)
+          Only For Android 13 based on LineageOS source code(eg. Crdroid)
           KernelSU For MI8SE" >> INFO.txt
           
       - name: Packaging the Kernel
