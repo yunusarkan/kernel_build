@@ -1,11 +1,11 @@
-name: Build KernelSU For MI8SE(sirius)
+name: Auto Build KernelSU For MI8SE(sirius)
 
 on:
   schedule:
     - cron: '0 1 * * *'
 
 jobs:
-  KSUForSirius:
+  AutoKSUForSirius:
     runs-on: ubuntu-latest
     steps:
       - name: Installing Dependencies
