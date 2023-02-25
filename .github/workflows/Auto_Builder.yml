@@ -55,7 +55,6 @@ jobs:
           echo "Device: MI 8 SE
           Code: Sirius/Xmsirius
           Build Time: ${{ env.BUILD_TIME }}
-          Only For Android 13 based on LineageOS source code(eg. Crdroid)
           CI Auto Build Without Any Test!!
           KernelSU For MI8SE" >> INFO.txt
           
@@ -70,7 +69,7 @@ jobs:
         uses: ncipollo/release-action@v1.8.6
         with:
           artifacts: MI8SE_KernelSU_CI-${{ env.BUILD_TIME }}.zip
-          name: "MI8SE_KernelSU_CI-Auto_No-Test"
-          tag: " ${{ env.BUILD_TIME }}_MI8SE_KernelSU_CI-Auto_No-Test"
+          name: "MI8SE_KernelSU_CI-${{ env.BUILD_TIME }}"
+          tag: " ${{ env.BUILD_TIME }}_MI8SE_KernelSU_CI"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
