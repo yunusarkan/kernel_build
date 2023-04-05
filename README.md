@@ -1,11 +1,11 @@
 [中文文档](https://github.com/SakuraNotStupid/kernel_build/blob/main/README_CN.md)
 # KernelSU For Sirius
-**CI Build KernelSU for sirius**  
+**CI Build Kernel for MI 9 SE**  
 **!! Android 13 based on LineageOS source code(eg. Crdroid) can be used !!**  
 ## How to Use
 1. Fork this repo to your Github  
 2. Click **Actions**  
-3. Click **Build KernelSU For MI8SE(sirius)** in the sidebar  
+3. Click **Build KernelSU For MI9SE(GRUS)** in the sidebar  
 4. Click **Run workflow** (White Button)  
 5. Click **Run workflow** (Green Button)  
 6. Just wait for compile finish  
