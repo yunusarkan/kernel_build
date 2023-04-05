@@ -51,6 +51,9 @@ jobs:
         run: |
           echo "Device: MI 9 SE
           Code: Grus
+          Build Time: ${{ env.BUILD_TIME }}
+          CI Auto Build Without Any Test!!
+          Twilight For MI9SE" >> INFO.txt
           Build Code: ${{ github.run_number }}
           Twilight Kernel For MI9SE" >> INFO.txt
       - name: Uploading Kernel Package to GH-Release
