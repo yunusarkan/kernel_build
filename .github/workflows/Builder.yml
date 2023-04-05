@@ -1,4 +1,4 @@
-name: Build Twilight For MI9SE(grus)
+name: Build Twilight v2 For MI9SE(grus)
 
 on:
   workflow_dispatch:

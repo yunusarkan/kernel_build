@@ -1,4 +1,4 @@
-name: Auto Build KernelSU For MI9SE(grus)
+name: Build Twilight v1 For MI9SE(grus)
 
 on:
   schedule:
