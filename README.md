@@ -1,5 +1,5 @@
 [中文文档](https://github.com/SakuraNotStupid/kernel_build/blob/main/README_CN.md)
-# KernelSU For Sirius
+# KernelSU For Grus
 **CI Build Kernel for MI 9 SE**  
 **!! Android 13 based on LineageOS source code(eg. Crdroid) can be used !!**  
 ## How to Use
