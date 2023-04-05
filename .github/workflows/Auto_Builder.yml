@@ -59,6 +59,6 @@ jobs:
         with:
           artifacts: Twilight_Kernel-V1-grus-AOSP.zip
           name: "Twilight_Kernel-V1-grus_CI-${{ env.BUILD_TIME }}"
-          tag: " ${{ env.BUILD_TIME }}_MI9SE_CI"
+          tag: " ${{ env.BUILD_TIME }}_MI9SE_CI_${{ github.run_number }}"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
