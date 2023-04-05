@@ -47,8 +47,6 @@ jobs:
           pushd AnyKernel3
           7z a -mx9 ../Twilight_Kernel-V2-grus-AOSP.zip *
           popd
-
-          popd
       - name: Creating Config Info
         run: |
           echo "Device: MI 9 SE
