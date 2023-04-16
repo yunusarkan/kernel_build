@@ -1,4 +1,4 @@
-name: Build test For MI9SE(grus)
+name: Build test For MI5X(tiffany))
 
 on:
   workflow_dispatch:
@@ -14,11 +14,11 @@ jobs:
           sudo apt clean
       - name: Cloning Sources and Toolchain
         run: |
-          git clone https://github.com/xiaomi-grus/kernel_xiaomi_sdm710.git --depth=1 -b stable --recurse-submodules android_kernel_xiaomi_sdm710
+          git clone https://github.com/windbell-project/android_kernel_xiaomi_msm8953.git --recurse-submodules android_kernel_xiaomi_msm8953
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/aarch64-linux-android-4.9
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/arm-linux-androideabi-4.9
-          git clone https://github.com/Tkiliay/AnyKernel3.git
+          git clone -b tiffany https://github.com/Tkiliay/AnyKernel3.git
       - name: Compiling Kernel(LineageOS)
         run: |
           CLANG=~/clang/bin
@@ -31,33 +31,31 @@ jobs:
           export CROSS_COMPILE=aarch64-linux-android-
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
           output_dir=out
-          pushd android_kernel_xiaomi_sdm710
+          pushd android_kernel_xiaomi_msm8953
           make O="$output_dir" \
-                      sdm670-perf_defconfig \
-                      xiaomi/sdm710-common.config \
-                      xiaomi/grus.config
+                      lineage_tiffany_defconfig
           make -j $(nproc) \
                        O="$output_dir" \
                        CC=clang
           popd
-      - name: Packaging the Kernel(LineageOS)
+      - name: Packaging the Kernel
         run: |
-          cp -v android_kernel_xiaomi_sdm710/out/arch/arm64/boot/Image.gz \
+          cp -v android_kernel_xiaomi_msm8953/out/arch/arm64/boot/Image.gz \
                      AnyKernel3/
           pushd AnyKernel3
-          7z a -mx9 ../Kernel-grus-AOSP.zip *
+          7z a -mx9 ../Kernel-tiffany-AOSP.zip *
           popd
       - name: Creating Config Info
         run: |
-          echo "Device: MI 9 SE
-          Code: Grus
+          echo "Device: MI 5X
+          Code: Tiffany
           Build Code: ${{ github.run_number }}
-          Twilight Kernel For MI9SE" >> INFO.txt
+          Twilight Kernel For MI 5X" >> INFO.txt
       - name: Uploading Kernel Package to GH-Release
         uses: ncipollo/release-action@v1.8.6
         with:
-          artifacts: Kernel-grus-AOSP.zip
-          name: "Kernel-grus_CI"
-          tag: " MI9SE_CI"
+          artifacts: Kernel-tiffany-AOSP.zip
+          name: "Kernel-tiffany_CI"
+          tag: " MI5X_CI"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
