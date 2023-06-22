@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  TwilightForGrus:
+  TwilightForTiffany:
     runs-on: ubuntu-latest
     steps:
       - name: Installing Dependencies
@@ -14,11 +14,11 @@ jobs:
           sudo apt clean
       - name: Cloning Sources and Toolchain
         run: |
-          git clone https://github.com/windbell-project/android_kernel_xiaomi_msm8953.git --depth=1 --recurse-submodules android_kernel_xiaomi_msm8953
+          git clone https://github.com/windbell-project/android_kernel_xiaomi_msm8953.git -b lineage-19.1 --depth=1 --recurse-submodules android_kernel_xiaomi_msm8953
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/aarch64-linux-android-4.9
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/arm-linux-androideabi-4.9
-          git clone -b tiffany https://github.com/Tkiliay/AnyKernel3.git
+          git clone -b tiffany https://github.com/Tkiliay/AnyKernel3.git -b tiffany
       - name: Compiling Kernel(LineageOS)
         run: |
           CLANG=~/clang/bin
