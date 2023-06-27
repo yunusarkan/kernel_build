@@ -24,8 +24,8 @@ jobs:
       - name: Applying Kernel Patch
         run: |
            cd android_kernel_xiaomi_sdm710/KernelSU
-           wget https://github.com/SakuraNotStupid/KernelSU/commit/7e8e62c7834237633f03b2abd1fa44dc6347d356.patch
-           patch -p1 < 7e8e62c7834237633f03b2abd1fa44dc6347d356.patch
+           wget https://github.com/SakuraNotStupid/KernelSU/commit/7a6f621bfec513732bc97260186a89a79ff66387.patch
+           patch -p1 < 7a6f621bfec513732bc97260186a89a79ff66387.patch
            rm -rf *.patch
       - name: Compiling Kernel
         run: |
