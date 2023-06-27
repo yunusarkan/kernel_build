@@ -1,4 +1,4 @@
-name: Build test For MI5X(tiffany))
+name: Build Twilight v1 with kernelsu For MI5X(tiffany)
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
           sudo apt clean
       - name: Cloning Sources and Toolchain
         run: |
-          git clone https://github.com/windbell-project/android_kernel_xiaomi_msm8953.git -b lineage-19.1 --depth=1 --recurse-submodules android_kernel_xiaomi_msm8953
+          git clone https://github.com/Tkiliay/android_kernel_xiaomi_msm8953.git -b lineage-19.1 --depth=1 --recurse-submodules android_kernel_xiaomi_msm8953
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/aarch64-linux-android-4.9
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/arm-linux-androideabi-4.9
@@ -49,7 +49,7 @@ jobs:
           cp -v android_kernel_xiaomi_msm8953/out/arch/arm64/boot/Image.gz \
                      AnyKernel3/
           pushd AnyKernel3
-          7z a -mx9 ../Kernel-tiffany-AOSP.zip *
+          7z a -mx9 ../Twilight_KernelSU-V1-CI-${{ env.BUILD_TIME }}-tiffany-AOSP.zip *
           popd
       - name: Creating Config Info
         run: |
