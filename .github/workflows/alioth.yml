@@ -62,6 +62,6 @@ jobs:
         with:
           artifacts: Twilight-V2-CI-${{ env.BUILD_TIME }}-alioth-AOSP.zip
           name: "Twilight-V2-alioth_CI-${{ env.BUILD_TIME }}"
-          tag: " ${{ env.BUILD_TIME }}_Alioth_kernelsu-CI_${{ github.run_number }}"
+          tag: " ${{ env.BUILD_TIME }}_Alioth-CI_${{ github.run_number }}"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}

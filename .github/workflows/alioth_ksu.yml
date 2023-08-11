@@ -23,8 +23,8 @@ jobs:
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
       - name: Add Ksu
         run: |
+          cd android_kernel_xiaomi_sm8250
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
-
       - name: Compiling Kernel
         run: |
           CLANG=~/clang/bin
