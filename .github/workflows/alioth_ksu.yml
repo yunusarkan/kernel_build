@@ -11,7 +11,7 @@ jobs:
       - name: Installing Dependencies
         run: |
           sudo apt update -y
-          sudo apt-get install -y zip flex bison libncurses-dev gawk glibc-source libiberty-dev autoconf kmod bc build-essential gcc libc6 curl libstdc++6 git wget libssl-dev cpio p7zip-full
+          sudo apt-get install -y zip python2 flex bison libncurses-dev gawk glibc-source libiberty-dev autoconf kmod bc build-essential gcc libc6 curl libstdc++6 git wget libssl-dev cpio p7zip-full
           sudo apt clean
           echo "BUILD_TIME=$(TZ=Asia/Shanghai date +%F)" >> $GITHUB_ENV
       - name: Cloning Sources and Toolchain
