@@ -23,10 +23,8 @@ jobs:
           git clone https://github.com/Tkiliay/AnyKernel3.git -b grus_kernelsu
       - name: Applying Kernel Patch
         run: |
-           cd android_kernel_xiaomi_sdm710/KernelSU
-           wget https://github.com/sticpaper/KernelSU-patch/commit/d2b6ef76772e62575904677e8118395ba3677820.patch
-           patch -p1 < d2b6ef76772e62575904677e8118395ba3677820.patch
-           rm -rf *.patch
+           cd android_kernel_xiaomi_sdm710
+           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
       - name: Compiling Kernel
         run: |
           CLANG=~/clang/bin
